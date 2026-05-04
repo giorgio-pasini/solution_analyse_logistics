@@ -4,7 +4,7 @@ import streamlit as st
 
 
 st.set_page_config(
-    page_title="Audit Supply Chain Dyntech 2022",
+    page_title="Supply Chain Audit Dyntech 2022",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -64,317 +64,317 @@ st.markdown(
 )
 
 st.markdown(
-    "<div class='main-title'><h2>Audit Supply Chain Dyntech 2022 - Pilotage performance Lean</h2><p>Cartographie complète des flux physiques et d'information — 8 processus analysés — 334 employés — Marne-la-Vallée + Orléans + 21 Agences + Export Marseille</p></div>",
+    "<div class='main-title'><h2>Supply Chain Audit Dyntech 2022 - Lean Performance Management</h2><p>Complete mapping of physical and information flows — 8 processes analysed — 334 employees — Marne-la-Vallée + Orléans + 21 Agencies + Export Marseille</p></div>",
     unsafe_allow_html=True,
 )
 
 kpi_cols = st.columns(7)
-kpi_cols[0].metric("CA Total", "841,8 M€")
-kpi_cols[1].metric("Stock immobilisé", "40,2 M€", "36 jours")
-kpi_cols[2].metric("Coût commande", "240 €", "standard marché: 40 €")
-kpi_cols[3].metric("Cash-to-Cash", "68 jours", "cible CEO: 30j")
+kpi_cols[0].metric("Total Revenue", "€841.8M")
+kpi_cols[1].metric("Tied-up Stock", "€40.2M", "36 days")
+kpi_cols[2].metric("Order Cost", "€240", "Market standard: €40")
+kpi_cols[3].metric("Cash-to-Cash", "68 days", "CEO target: 30d")
 kpi_cols[4].metric("EBITDA", "11%")
-kpi_cols[5].metric("Efficience VALT", "2.4%")
+kpi_cols[5].metric("VALT Efficiency", "2.4%")
 kpi_cols[6].metric("OTIF", "92.55%")
 
 problems = [
     {
-        "name": "1) Gestion de stock",
+        "name": "1) Inventory Management",
         "priority": "quick",
         "current_kpis": {
-            "Stocks": "40 231 775 €",
-            "NITO": "10,26",
-            "Days of Inventory": "36 jours",
-            "Holding cost": "23,4% (9,4 M€/an)",
-            "Stockouts": "16,57%",
-            "Ecarts inventaire": "442/an",
+            "Stock Value": "€40,231,775",
+            "NITO": "10.26",
+            "Days of Inventory": "36 days",
+            "Holding Cost": "23.4% (€9.4M/yr)",
+            "Stockouts": "16.57%",
+            "Inventory Discrepancies": "442/yr",
         },
         "ishikawa": {
-            "Main d'oeuvre": "Pas de cycle counting, faible discipline ABC.",
-            "Methodes": "Parametrage mini/maxi insuffisant, controles ponctuels.",
-            "Machines": "ERP sans alertes intelligentes stock dormant.",
-            "Milieu": "Saisonnalite + volatilite demande.",
-            "Matieres": "SKU dormants (375), portefeuille trop large.",
+            "Manpower": "No cycle counting, weak ABC discipline.",
+            "Methods": "Insufficient min/max parameters, ad-hoc controls.",
+            "Machines": "ERP without intelligent dormant stock alerts.",
+            "Environment": "Seasonality + demand volatility.",
+            "Materials": "Dormant SKUs (375), overly broad portfolio.",
         },
         "five_why": [
-            "Pourquoi 442 ecarts inventaire ? -> Comptages non frequents.",
-            "Pourquoi comptages non frequents ? -> Processus manualise et chronophage.",
-            "Pourquoi processus chronophage ? -> Absence de priorisation ABC quotidienne.",
-            "Pourquoi pas de priorisation ? -> Gouvernance stock peu formalisee.",
-            "Pourquoi gouvernance faible ? -> Pas de pilotage visuel/Kanban integre ERP.",
+            "Why 442 inventory discrepancies? -> Infrequent counts.",
+            "Why infrequent counts? -> Manual and time-consuming process.",
+            "Why time-consuming? -> No daily ABC prioritisation.",
+            "Why no prioritisation? -> Poorly formalised stock governance.",
+            "Why weak governance? -> No visual/Kanban management integrated with ERP.",
         ],
         "muda": ["Inventory", "Defects", "Waiting"],
         "annual_current_cost": 9_400_000,
         "actions": [
-            "Kanban sur 4 260 SKU classe A",
-            "Cycle counting ABC quotidien",
-            "Supermarche entrepot avec emplacements visuels",
-            "Kanban electronique integre ERP",
-            "Poka-Yoke: alertes stock dormant > 6 mois",
+            "Kanban on 4,260 Class A SKUs",
+            "Daily ABC cycle counting",
+            "Warehouse supermarket with visual locations",
+            "Electronic Kanban integrated with ERP",
+            "Poka-Yoke: alerts for dormant stock > 6 months",
         ],
         "investment": 50_000,
         "future": {
-            "NITO": "15,5",
-            "Days of Inventory": "22 jours",
+            "NITO": "15.5",
+            "Days of Inventory": "22 days",
             "Stockouts": "5%",
-            "Holding cost": "17%",
-            "Gain annuel": "4,8 M€",
-            "Payback": "< 1 mois",
+            "Holding Cost": "17%",
+            "Annual Gain": "€4.8M",
+            "Payback": "< 1 month",
         },
         "gain": 4_800_000,
-        "payback": "< 1 mois",
-        "vsm_before": """Fournisseur -> Reception -> Controle manuel -> Stock central (36j) -> Picking -> Livraison
-             [Attente validation]     [Ecarts inventaire]         [Ruptures 16,57%]""",
-        "vsm_after": """Fournisseur -> EDI/Kanban -> Reception scan -> Supermarche 5S (22j) -> Reappro auto -> Livraison
-             [Flux tire]               [Cycle counting ABC]        [Ruptures 5%]""",
-        "roi_hypothesis": "Reduction holding cost + reduction ecarts + recuperation ventes perdues.",
-        "risks": "Adoption terrain lente; mitigation via coaching quotidien + management visuel.",
+        "payback": "< 1 month",
+        "vsm_before": """Supplier -> Receiving -> Manual Check -> Central Stock (36d) -> Picking -> Delivery
+          [Validation Wait]     [Inventory Gaps]         [Stockouts 16.57%]""",
+        "vsm_after": """Supplier -> EDI/Kanban -> Scan Receiving -> 5S Supermarket (22d) -> Auto Replenishment -> Delivery
+          [Pull Flow]               [ABC Cycle Count]        [Stockouts 5%]""",
+        "roi_hypothesis": "Reduction in holding costs + fewer discrepancies + recovery of lost sales.",
+        "risks": "Slow field adoption; mitigated via daily coaching + visual management.",
     },
     {
-        "name": "2) Supply Chain (appro/production)",
+        "name": "2) Supply Chain (Procurement/Production)",
         "priority": "quick",
         "current_kpis": {
-            "Lignes PO/an": "52 350",
-            "Fournisseurs": "303",
-            "Cout traitement PO": "350 € (18,3 M€/an)",
-            "Cycle time ligne PO": "10,05 min avec signature",
+            "PO Lines/yr": "52,350",
+            "Suppliers": "303",
+            "PO Processing Cost": "€350 (€18.3M/yr)",
+            "PO Line Cycle Time": "10.05 min with signature",
             "SOTD": "93%",
-            "Reclamations fournisseurs": "2,20%",
+            "Supplier Claims": "2.20%",
         },
         "ishikawa": {
-            "Main d'oeuvre": "Validation centralisee (M. Clarks).",
-            "Methodes": "Pas de S&OP et audits fournisseurs insuffisants.",
-            "Machines": "Pas d'EDI ni workflow digital complet.",
-            "Milieu": "Multiplicite fournisseurs et variabilite.",
-            "Matieres": "Donnees previsionnelles peu fiables.",
+            "Manpower": "Centralised approval (Mr. Clarks).",
+            "Methods": "No S&OP and insufficient supplier audits.",
+            "Machines": "No EDI or complete digital workflow.",
+            "Environment": "Multiple suppliers and high variability.",
+            "Materials": "Unreliable forecast data.",
         },
         "five_why": [
-            "Pourquoi cout PO eleve ? -> Trop d'etapes manuelles.",
-            "Pourquoi manuel ? -> Pas d'EDI interconnecte.",
-            "Pourquoi pas d'EDI ? -> Priorisation budget historiquement faible.",
-            "Pourquoi goulot signature ? -> Delegation de pouvoir absente.",
-            "Pourquoi delegation absente ? -> Regles de controle non formalisees.",
+            "Why high PO cost? -> Too many manual steps.",
+            "Why manual? -> No interconnected EDI.",
+            "Why no EDI? -> Historically low budget priority.",
+            "Why signature bottleneck? -> No delegation of authority.",
+            "Why no delegation? -> Approval rules not formalised.",
         ],
         "muda": ["Waiting", "Overprocessing", "Defects", "Motion"],
         "annual_current_cost": 18_300_000,
         "actions": [
-            "EDI ASP top 50 fournisseurs",
-            "Delegation signatures PO < 30kEUR",
-            "S&OP mensuel multi-fonction",
-            "SRM scorecard fournisseurs",
-            "Activation module forecast ERP",
-            "Poka-Yoke workflow auto-validation",
+            "EDI ASP for top 50 suppliers",
+            "PO signature delegation < €30K",
+            "Monthly multi-function S&OP",
+            "SRM supplier scorecard",
+            "ERP forecast module activation",
+            "Poka-Yoke auto-validation workflow",
         ],
         "investment": 80_400,
         "future": {
-            "Cout/PO": "180 €",
-            "SOTD": "97,5%",
-            "Reclamations": "0,8%",
-            "Precision forecasts": "85%",
-            "Gain annuel": "8,9 M€",
-            "Payback": "4 jours",
+            "Cost/PO": "€180",
+            "SOTD": "97.5%",
+            "Claims": "0.8%",
+            "Forecast Accuracy": "85%",
+            "Annual Gain": "€8.9M",
+            "Payback": "4 days",
         },
         "gain": 8_900_000,
-        "payback": "4 jours",
-        "vsm_before": """Besoin achat -> Saisie PO -> Signature manuelle -> Envoi fournisseur -> Relances -> Reception
-               [2h30 attente]          [pas d'EDI]                [SOTD 93%]""",
-        "vsm_after": """Besoin achat -> Workflow digital -> EDI fournisseur -> Confirmation auto -> Reception -> Scorecard SRM
-               [5 min]                  [95% volume EDI]          [SOTD 97,5%]""",
-        "roi_hypothesis": "Baisse cout administratif PO + reduction non-qualite fournisseurs.",
-        "risks": "Resistance fournisseurs EDI; mitigation via onboarding progressif et support dedie.",
+        "payback": "4 days",
+        "vsm_before": """Purchase Need -> PO Entry -> Manual Signature -> Supplier Send -> Follow-ups -> Receiving
+             [2h30 wait]          [no EDI]                [SOTD 93%]""",
+        "vsm_after": """Purchase Need -> Digital Workflow -> EDI Supplier -> Auto Confirmation -> Receiving -> SRM Scorecard
+             [5 min]                  [95% EDI volume]          [SOTD 97.5%]""",
+        "roi_hypothesis": "Lower PO admin cost + reduction in supplier non-quality.",
+        "risks": "Supplier resistance to EDI; mitigated via gradual onboarding and dedicated support.",
     },
     {
-        "name": "3) SAV",
+        "name": "3) After-Sales Service (SAV)",
         "priority": "mid",
         "current_kpis": {
-            "Lignes retour/an": "10 002 (2,598%)",
-            "Reclamations agences": "16 815 (4,368%)",
-            "Reclamations export": "498 (9,68%)",
-            "Temps traitement retour": "13,17 min/ligne",
-            "Produits detruits": "1 109/an",
-            "Satisfaction client final": "NC AFNOR",
+            "Return Lines/yr": "10,002 (2.598%)",
+            "Agency Claims": "16,815 (4.368%)",
+            "Export Claims": "498 (9.68%)",
+            "Return Processing Time": "13.17 min/line",
+            "Products Destroyed": "1,109/yr",
+            "End-Customer Satisfaction": "AFNOR N/A",
         },
         "ishikawa": {
-            "Main d'oeuvre": "Equipe reduite (5 personnes).",
-            "Methodes": "Process retours Access non exploitable.",
-            "Machines": "Absence CRM analytique SAV.",
-            "Milieu": "Variabilite qualite expedition agences.",
-            "Matieres": "Packaging non poka-yoke (erreurs quantites).",
+            "Manpower": "Small team (5 people).",
+            "Methods": "Access-based returns process, not exploitable.",
+            "Machines": "No analytical CRM for after-sales.",
+            "Environment": "Variable shipping quality from agencies.",
+            "Materials": "Non-poka-yoke packaging (quantity errors).",
         },
         "five_why": [
-            "Pourquoi taux retours 2,598% ? -> Erreurs preparation/quantite.",
-            "Pourquoi erreurs preparation ? -> Regles controles non standard.",
-            "Pourquoi pas de standard ? -> Pas de referentiel VoC/NPS.",
-            "Pourquoi pas de VoC ? -> Processus centré interne, pas client final.",
-            "Pourquoi pas client final ? -> Donnees satisfaction non captees.",
+            "Why 2.598% return rate? -> Preparation/quantity errors.",
+            "Why preparation errors? -> Non-standard control rules.",
+            "Why no standard? -> No VoC/NPS framework.",
+            "Why no VoC? -> Process internally focused, not customer-centric.",
+            "Why not customer-centric? -> Satisfaction data not captured.",
         ],
         "muda": ["Defects", "Waiting", "Motion"],
         "annual_current_cost": 2_000_000,
         "actions": [
-            "VoC trimestriel clients B2B",
-            "Lean Office retours (13,17 -> 6 min)",
-            "CRM SAV avec analytics",
+            "Quarterly B2B customer VoC",
+            "Lean Office for returns (13.17 -> 6 min)",
+            "SAV CRM with analytics",
             "Poka-Yoke packaging",
-            "NPS trimestriel + dashboard temps reel",
+            "Quarterly NPS + real-time dashboard",
         ],
         "investment": 70_000,
         "future": {
-            "Taux retours": "1,2%",
-            "Temps traitement": "6 min/ligne",
-            "Reclamations agences": "1,5%",
-            "Reclamations export": "3%",
-            "Gain annuel": "1,2 M€",
-            "Payback": "< 2 mois",
+            "Return Rate": "1.2%",
+            "Processing Time": "6 min/line",
+            "Agency Claims": "1.5%",
+            "Export Claims": "3%",
+            "Annual Gain": "€1.2M",
+            "Payback": "< 2 months",
         },
         "gain": 1_200_000,
-        "payback": "< 2 mois",
-        "vsm_before": """Retour agence -> Controle manuel -> Saisie Access -> Validation -> Remise stock/destruction
-                 [13,17 min]            [data non exploitee]      [reclamations elevees]""",
-        "vsm_after": """Retour agence -> Scan CRM -> Regles Lean Office -> Decision auto -> Remise stock rapide
-                 [6 min]                 [dashboard temps reel]    [NPS pilote]""",
-        "roi_hypothesis": "Reduction cout SAV direct + baisse destructions + reduction reclamations.",
-        "risks": "Charge equipe durant transition; mitigation via pilote sur 2 agences puis extension.",
+        "payback": "< 2 months",
+        "vsm_before": """Agency Return -> Manual Check -> Access Entry -> Validation -> Restock/Destroy
+              [13.17 min]            [data not used]      [high claims]""",
+        "vsm_after": """Agency Return -> CRM Scan -> Lean Office Rules -> Auto Decision -> Fast Restock
+              [6 min]                 [real-time dashboard]    [NPS tracked]""",
+        "roi_hypothesis": "Reduction in direct SAV cost + fewer destructions + lower claims.",
+        "risks": "Team workload during transition; mitigated via pilot on 2 agencies then rollout.",
     },
     {
-        "name": "4) Facturation",
+        "name": "4) Invoicing",
         "priority": "quick",
         "current_kpis": {
-            "Factures/an": "65 250",
-            "Cout commande": "240 €",
-            "DSO": "62 jours",
-            "Cash-to-cash": "68 jours",
-            "BFR (DSO-DPO)": "32 jours",
-            "Mode facturation": "Papier + double controle",
+            "Invoices/yr": "65,250",
+            "Order Cost": "€240",
+            "DSO": "62 days",
+            "Cash-to-Cash": "68 days",
+            "NWC (DSO-DPO)": "32 days",
+            "Invoicing Mode": "Paper + double check",
         },
         "ishikawa": {
-            "Main d'oeuvre": "Double controle facture non necessaire.",
-            "Methodes": "Relances et litiges en fin d'annee.",
-            "Machines": "Pas d'EDI facturation ni Factur-X.",
-            "Milieu": "Dependance delais agences B2B.",
-            "Matieres": "Donnees transport integrees tardivement.",
+            "Manpower": "Unnecessary double invoice check.",
+            "Methods": "Late-year chasing and disputes.",
+            "Machines": "No EDI billing or Factur-X.",
+            "Environment": "Dependency on B2B agency lead times.",
+            "Materials": "Transport data integrated too late.",
         },
         "five_why": [
-            "Pourquoi DSO a 62 jours ? -> Envoi papier + workflow lent.",
-            "Pourquoi workflow lent ? -> Double controle systematique.",
-            "Pourquoi double controle ? -> Heritage ancien process risque.",
-            "Pourquoi pas digitalisation ? -> EDI/facturation electronique non deployes.",
-            "Pourquoi non deployes ? -> Gouvernance cash insuffisamment priorisee.",
+            "Why DSO at 62 days? -> Paper sending + slow workflow.",
+            "Why slow workflow? -> Systematic double check.",
+            "Why double check? -> Legacy risk process.",
+            "Why no digitalisation? -> EDI/e-invoicing not deployed.",
+            "Why not deployed? -> Cash governance insufficiently prioritised.",
         ],
         "muda": ["Overprocessing", "Waiting", "Motion"],
         "annual_current_cost": 15_660_000,
         "actions": [
-            "Facturation electronique Factur-X",
-            "Suppression double controle",
-            "EDI facturation agences",
-            "Escompte 1% paiement <15 jours",
-            "Refacturation transport mensuelle automatisee",
-            "Poka-Yoke validation donnees ERP",
+            "Factur-X electronic invoicing",
+            "Remove double check",
+            "Agency invoicing EDI",
+            "1% discount for payment < 15 days",
+            "Automated monthly transport rebilling",
+            "Poka-Yoke ERP data validation",
         ],
         "investment": 60_000,
         "future": {
-            "DSO": "35 jours",
-            "Cash-to-cash": "30 jours",
-            "Cout commande": "150 €",
-            "Tresorerie one-shot": "+62 M€",
-            "Gain annuel": "5,9 M€",
-            "Payback": "4 jours",
+            "DSO": "35 days",
+            "Cash-to-Cash": "30 days",
+            "Order Cost": "€150",
+            "One-shot Cash": "+€62M",
+            "Annual Gain": "€5.9M",
+            "Payback": "4 days",
         },
         "gain": 5_900_000,
-        "payback": "4 jours",
-        "vsm_before": """Commande -> Preparation facture -> Double controle -> Envoi postal -> Paiement client
-              [attente validations]      [courrier]                [DSO 62j]""",
-        "vsm_after": """Commande -> Factur-X auto -> EDI agences -> Relance digitale -> Paiement accelere
-              [controle integre]         [temps reel]              [DSO 35j]""",
-        "roi_hypothesis": "Baisse cout process + acceleration encaissement + reduction BFR.",
-        "risks": "Compatibilite EDI partenaires; mitigation via phase dual-run 3 mois.",
+        "payback": "4 days",
+        "vsm_before": """Order -> Invoice Preparation -> Double Check -> Postal Send -> Client Payment
+           [validation delays]      [mail]                [DSO 62d]""",
+        "vsm_after": """Order -> Auto Factur-X -> Agency EDI -> Digital Chase -> Accelerated Payment
+           [integrated control]         [real time]              [DSO 35d]""",
+        "roi_hypothesis": "Lower process cost + faster collection + NWC reduction.",
+        "risks": "EDI partner compatibility; mitigated via 3-month dual-run phase.",
     },
     {
-        "name": "5) Data & integration",
+        "name": "5) Data & Integration",
         "priority": "long",
         "current_kpis": {
-            "ERP": "In-house, MAJ 2020",
-            "Integrations": "Pas d'EDI/WMS/CRM",
-            "Transport": "Donnees non analysees",
-            "Ecarts inventaire": "442/an non analyses",
-            "Forecast": "Module peu utilise",
-            "Satisfaction client": "NC AFNOR",
+            "ERP": "In-house, last updated 2020",
+            "Integrations": "No EDI/WMS/CRM",
+            "Transport": "Data not analysed",
+            "Inventory Discrepancies": "442/yr not analysed",
+            "Forecast": "Module barely used",
+            "Customer Satisfaction": "AFNOR N/A",
         },
         "ishikawa": {
-            "Main d'oeuvre": "Culture data heterogene par departement.",
-            "Methodes": "Pas de scorecard partagee.",
-            "Machines": "Architecture applicative en silos.",
-            "Milieu": "Pilotage decentralise multi-sites.",
-            "Matieres": "Qualite donnees incompletes (poids/dimensions).",
+            "Manpower": "Heterogeneous data culture by department.",
+            "Methods": "No shared scorecard.",
+            "Machines": "Siloed application architecture.",
+            "Environment": "Decentralised multi-site management.",
+            "Materials": "Incomplete data quality (weight/dimensions).",
         },
         "five_why": [
-            "Pourquoi pilotage en silos ? -> Sources non connectees.",
-            "Pourquoi non connectees ? -> Pas de data lake central.",
-            "Pourquoi pas de data lake ? -> Investissement reporte.",
-            "Pourquoi investissement reporte ? -> ROI transverse peu formalise.",
-            "Pourquoi ROI peu formalise ? -> Manque gouvernance data dediee.",
+            "Why siloed management? -> Disconnected sources.",
+            "Why disconnected? -> No central data lake.",
+            "Why no data lake? -> Investment deferred.",
+            "Why deferred? -> Cross-functional ROI poorly formalised.",
+            "Why poorly formalised? -> Lack of dedicated data governance.",
         ],
         "muda": ["Inventory", "Waiting", "Defects", "Overprocessing", "Motion"],
         "annual_current_cost": 3_000_000,
         "actions": [
-            "Data Lake / Data Warehouse central",
-            "Dashboards BI par fonction",
-            "Balanced Scorecard Kaplan",
-            "API ERP-transporteurs",
-            "CRM agences + portail B2B",
-            "WMS integre + forecast collaboratif",
+            "Central Data Lake / Data Warehouse",
+            "Function-level BI dashboards",
+            "Kaplan Balanced Scorecard",
+            "ERP-carrier API",
+            "Agency CRM + B2B portal",
+            "Integrated WMS + collaborative forecast",
             "Poka-Yoke data quality",
         ],
         "investment": 230_000,
         "future": {
-            "Cout transport/km": "0,95 €",
-            "Precision forecast": "85%",
-            "Visibilite": "Temps reel",
-            "Conformite ISO": "Conforme",
-            "Gain annuel": "5-8 M€",
-            "Payback": "6 mois",
+            "Transport Cost/km": "€0.95",
+            "Forecast Accuracy": "85%",
+            "Visibility": "Real-time",
+            "ISO Compliance": "Compliant",
+            "Annual Gain": "€5-8M",
+            "Payback": "6 months",
         },
         "gain": 5_000_000,
-        "payback": "6 mois",
-        "vsm_before": """ERP silo -> Exports manuels -> Fichiers departement -> Decision tardive
-              [pas de CRM/WMS]          [pas d'API]                [actions reactives]""",
-        "vsm_after": """ERP + CRM + WMS -> Data Lake -> Dashboard BI -> Alertes qualite data -> Decision data-driven
-              [flux integre]            [temps reel]               [pilotage proactif]""",
-        "roi_hypothesis": "Optimisation transport + reduction stocks securite + productivite globale.",
-        "risks": "Complexite integration SI; mitigation via feuille de route modulaire par trimestre.",
+        "payback": "6 months",
+        "vsm_before": """ERP silo -> Manual Exports -> Dept Files -> Late Decision
+           [no CRM/WMS]          [no API]                [reactive actions]""",
+        "vsm_after": """ERP + CRM + WMS -> Data Lake -> BI Dashboard -> Data Quality Alerts -> Data-driven Decision
+           [integrated flow]            [real time]               [proactive management]""",
+        "roi_hypothesis": "Transport optimisation + reduced safety stock + overall productivity.",
+        "risks": "IS integration complexity; mitigated via modular quarterly roadmap.",
     },
 ]
 
-tabs = st.tabs(["Etat actuel", "Etat futur", "ROI & Resultats"])
+tabs = st.tabs(["Current State", "Future State", "ROI & Results"])
 
 with tabs[0]:
-    st.header("Etat actuel - Diagnostic des 5 problematiques")
-    st.caption("Analyse Lean Six Sigma: fiche KPI, Ishikawa 5M, 5 Pourquoi, MUDA et cout annuel.")
+    st.header("Current State - Diagnosis of 5 Key Issues")
+    st.caption("Lean Six Sigma analysis: KPI sheet, Ishikawa 5M, 5 Whys, MUDA and annual cost.")
 
     for p in problems:
         with st.expander(p["name"], expanded=False):
             c1, c2 = st.columns([1, 1])
             with c1:
-                st.subheader("Fiche diagnostic")
+                st.subheader("Diagnostic Sheet")
                 st.dataframe(pd.DataFrame([p["current_kpis"]]), use_container_width=True)
-                st.markdown("**Gaspillages MUDA identifies:** " + ", ".join(p["muda"]))
+                st.markdown("**MUDA Wastes Identified:** " + ", ".join(p["muda"]))
                 st.markdown(
-                    f"**Cout actuel estime (pertes annuelles):** :red[{p['annual_current_cost'] / 1_000_000:.2f} MEUR/an]"
+                    f"**Estimated Annual Cost (losses):** :red[{p['annual_current_cost'] / 1_000_000:.2f} MEUR/yr]"
                 )
             with c2:
-                st.subheader("Ishikawa 5M (racine)")
+                st.subheader("Ishikawa 5M (Root Cause)")
                 for key, value in p["ishikawa"].items():
                     st.markdown(f"- **{key}** : {value}")
 
-            st.subheader("5 Pourquoi")
+            st.subheader("5 Whys")
             for why in p["five_why"]:
                 st.markdown(f"- {why}")
 
-            st.subheader("VSM ASCII - Etat actuel")
+            st.subheader("VSM ASCII - Current State")
             st.code(p["vsm_before"], language="text")
 
 with tabs[1]:
-    st.header("Etat futur - Solutions Lean simulees")
-    st.caption("Actions Kaizen, Poka-Yoke, KPI cibles, VSM futur, ROI et plan de deploiement.")
+    st.header("Future State - Simulated Lean Solutions")
+    st.caption("Kaizen actions, Poka-Yoke, target KPIs, future VSM, ROI and deployment plan.")
 
     for p in problems:
         with st.expander(p["name"], expanded=False):
@@ -385,126 +385,126 @@ with tabs[1]:
             else:
                 st.markdown("<span class='tag-long'>Long-term</span>", unsafe_allow_html=True)
 
-            st.subheader("Actions Kaizen")
+            st.subheader("Kaizen Actions")
             for action in p["actions"]:
                 st.markdown(f"- {action}")
 
-            st.subheader("Indicateurs cibles (Avant/Apres)")
-            before = pd.Series(p["current_kpis"], name="Avant")
-            after = pd.Series(p["future"], name="Apres")
+            st.subheader("Target Indicators (Before/After)")
+            before = pd.Series(p["current_kpis"], name="Before")
+            after = pd.Series(p["future"], name="After")
             comp = pd.concat([before, after], axis=1).fillna("-")
             st.dataframe(comp, use_container_width=True)
 
-            st.subheader("VSM ASCII - Etat futur")
+            st.subheader("VSM ASCII - Future State")
             st.code(p["vsm_after"], language="text")
 
             roi = p["gain"] / p["investment"]
             st.success(
-                f"Gain annuel: {p['gain'] / 1_000_000:.1f} MEUR | Investissement: {p['investment'] / 1000:.1f} kEUR | ROI: {roi:.1f}x | Payback: {p['payback']}"
+                f"Annual Gain: {p['gain'] / 1_000_000:.1f} MEUR | Investment: {p['investment'] / 1000:.1f} k€ | ROI: {roi:.1f}x | Payback: {p['payback']}"
             )
 
-            with st.expander("Calcul detaille du ROI (hypotheses + formule)"):
-                st.markdown(f"- **Hypothese principale** : {p['roi_hypothesis']}")
+            with st.expander("Detailed ROI Calculation (assumptions + formula)"):
+                st.markdown(f"- **Main Assumption**: {p['roi_hypothesis']}")
                 st.markdown(
-                    f"- **Formule ROI** : (Gain annuel - Investissement) / Investissement = ({p['gain']:,} - {p['investment']:,}) / {p['investment']:,}"
+                    f"- **ROI Formula**: (Annual Gain - Investment) / Investment = ({p['gain']:,} - {p['investment']:,}) / {p['investment']:,}"
                 )
-                st.markdown(f"- **ROI calcule** : {(p['gain'] - p['investment']) / p['investment']:.2f}x")
-                st.markdown(f"- **Payback annonce** : {p['payback']}")
-                st.markdown(f"- **Risque principal et mitigation** : {p['risks']}")
+                st.markdown(f"- **Calculated ROI**: {(p['gain'] - p['investment']) / p['investment']:.2f}x")
+                st.markdown(f"- **Announced Payback**: {p['payback']}")
+                st.markdown(f"- **Main Risk & Mitigation**: {p['risks']}")
 
     gantt_df = pd.DataFrame(
         [
             ("Kanban + Cycle Counting", "2023-01-01", "2023-06-30", "Stock"),
-            ("EDI fournisseurs", "2023-01-15", "2023-07-15", "Supply"),
-            ("VoC + CRM SAV", "2023-04-01", "2023-09-30", "SAV"),
-            ("Facturation electronique", "2023-02-01", "2023-08-31", "Facturation"),
+            ("Supplier EDI", "2023-01-15", "2023-07-15", "Supply"),
+            ("VoC + SAV CRM", "2023-04-01", "2023-09-30", "SAV"),
+            ("Electronic Invoicing", "2023-02-01", "2023-08-31", "Invoicing"),
             ("Data Lake + WMS + CRM", "2023-01-01", "2023-12-31", "Data"),
-            ("Stabilisation & standard", "2023-10-01", "2023-12-31", "Transverse"),
+            ("Stabilisation & Standardisation", "2023-10-01", "2023-12-31", "Cross-functional"),
         ],
-        columns=["Etape", "Debut", "Fin", "Axe"],
+        columns=["Step", "Start", "End", "Stream"],
     )
     fig_gantt = px.timeline(
         gantt_df,
-        x_start="Debut",
-        x_end="Fin",
-        y="Etape",
-        color="Axe",
-        title="Plan de deploiement Gantt simule - 2023",
+        x_start="Start",
+        x_end="End",
+        y="Step",
+        color="Stream",
+        title="Simulated Gantt Deployment Plan - 2023",
     )
     fig_gantt.update_yaxes(autorange="reversed")
     st.plotly_chart(fig_gantt, use_container_width=True)
 
 with tabs[2]:
-    st.header("ROI & Resultats")
-    st.caption("Synthese financiere, details d'impacts, atteinte objectifs CEO et conformite.")
+    st.header("ROI & Results")
+    st.caption("Financial summary, impact details, CEO objective attainment and compliance.")
 
     summary_df = pd.DataFrame(
         [
-            ["Gestion de stock", "50 k€", "4,8 M€", "96x", "< 1 mois"],
-            ["Supply Chain", "80,4 k€", "8,9 M€", "110x", "4 jours"],
-            ["SAV", "70 k€", "1,2 M€", "17x", "< 2 mois"],
-            ["Facturation", "60 k€", "5,9 M€ + 62 M€ (one-shot)", "98x + tresorerie", "4 jours"],
-            ["Data & integration", "230 k€ + 80 k€/an", "5-8 M€", "~25x", "6 mois"],
-            ["TOTAL", "490,4 k€", "25,8 M€/an + 62 M€", "moyenne 70x", "< 3 mois"],
+            ["Inventory Management", "€50k", "€4.8M", "96x", "< 1 month"],
+            ["Supply Chain", "€80.4k", "€8.9M", "110x", "4 days"],
+            ["After-Sales Service", "€70k", "€1.2M", "17x", "< 2 months"],
+            ["Invoicing", "€60k", "€5.9M + €62M (one-shot)", "98x + cash", "4 days"],
+            ["Data & Integration", "€230k + €80k/yr", "€5-8M", "~25x", "6 months"],
+            ["TOTAL", "€490.4k", "€25.8M/yr + €62M", "avg 70x", "< 3 months"],
         ],
-        columns=["Problematique", "Investissement", "Gain annuel", "ROI", "Payback"],
+        columns=["Issue", "Investment", "Annual Gain", "ROI", "Payback"],
     )
-    st.subheader("Tableau synthetique des 5 problematiques")
+    st.subheader("Summary Table — 5 Key Issues")
     st.dataframe(summary_df, use_container_width=True)
 
-    st.subheader("Detail de l'impact de chaque action")
-    selected = st.selectbox("Choisir une problematique", [p["name"] for p in problems])
+    st.subheader("Impact Detail by Action")
+    selected = st.selectbox("Select an issue", [p["name"] for p in problems])
     p_sel = next(p for p in problems if p["name"] == selected)
     impacts = []
     for idx, action in enumerate(p_sel["actions"], start=1):
         impacts.append(
             {
                 "Action": action,
-                "Indicateur cible": list(p_sel["future"].keys())[min(idx - 1, len(p_sel["future"]) - 1)],
-                "Avant/Apres": f"{list(p_sel['current_kpis'].values())[0]} -> {list(p_sel['future'].values())[min(idx - 1, len(p_sel['future']) - 1)]}",
-                "Gain attribue": f"{p_sel['gain'] / max(len(p_sel['actions']),1) / 1_000_000:.2f} M€/an",
+                "Target Indicator": list(p_sel["future"].keys())[min(idx - 1, len(p_sel["future"]) - 1)],
+                "Before/After": f"{list(p_sel['current_kpis'].values())[0]} -> {list(p_sel['future'].values())[min(idx - 1, len(p_sel['future']) - 1)]}",
+                "Attributed Gain": f"{p_sel['gain'] / max(len(p_sel['actions']),1) / 1_000_000:.2f} M€/yr",
             }
         )
     st.dataframe(pd.DataFrame(impacts), use_container_width=True)
 
-    st.subheader("Synthese CEO")
+    st.subheader("CEO Summary")
     st.success(
-        "Les 5 actions proposees generent plus de 25 M€ de gains annuels pour un investissement total inferieur a 500 k€, "
-        "avec un retour sur investissement moyen inferieur a 3 mois. La tresorerie est renforcee de 62 M€ des la premiere annee. "
-        "Tous les objectifs strategiques du CEO 2022 sont atteints voire depasses."
+        "The 5 proposed initiatives generate over €25M in annual gains for a total investment of under €500k, "
+        "with an average return on investment of under 3 months. Cash flow is strengthened by €62M from the first year. "
+        "All 2022 CEO strategic objectives are met or exceeded."
     )
 
     objectives_df = pd.DataFrame(
         [
-            ("+5% CA net", 108),
-            ("-20% stocks", 195),
-            ("-9% cout transport", 233),
-            ("Cash-to-cash 30j", 100),
-            ("+9% fidelisation", 112),
+            ("+5% Net Revenue", 108),
+            ("-20% Inventory", 195),
+            ("-9% Transport Cost", 233),
+            ("Cash-to-Cash 30d", 100),
+            ("+9% Customer Retention", 112),
         ],
-        columns=["Objectif CEO", "Realisation (%)"],
+        columns=["CEO Objective", "Achievement (%)"],
     )
     fig_obj = px.bar(
         objectives_df,
-        x="Objectif CEO",
-        y="Realisation (%)",
-        color="Realisation (%)",
+        x="CEO Objective",
+        y="Achievement (%)",
+        color="Achievement (%)",
         color_continuous_scale=["#f59e0b", "#22c55e"],
-        title="Jauge d'atteinte des objectifs CEO",
+        title="CEO Objective Achievement Gauge",
         range_y=[0, 240],
     )
     st.plotly_chart(fig_obj, use_container_width=True)
 
-    st.subheader("Conformite")
+    st.subheader("Compliance")
     st.markdown("**Badges:** ✅ ASLOG   |   ✅ ISO 9001   |   ✅ SCOR v12")
     check_df = pd.DataFrame(
         [
-            ("ASLOG", "Pilotage flux, standardisation processus", "OK"),
-            ("ISO 9001", "Boucle d'amelioration continue, satisfaction client", "OK"),
+            ("ASLOG", "Flow management, process standardisation", "OK"),
+            ("ISO 9001", "Continuous improvement loop, customer satisfaction", "OK"),
             ("SCOR v12", "KPIs plan-source-make-deliver-return", "OK"),
         ],
-        columns=["Referentiel", "Points verifies", "Statut"],
+        columns=["Standard", "Points Verified", "Status"],
     )
     st.table(check_df)
 
-st.markdown("<div class='footer'>Projet Lean Six Sigma - Dyntech 2022</div>", unsafe_allow_html=True)
+st.markdown("<div class='footer'>Lean Six Sigma Project - Dyntech 2022</div>", unsafe_allow_html=True)
