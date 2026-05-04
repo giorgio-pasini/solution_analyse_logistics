@@ -68,7 +68,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-kpi_cols = st.columns(5)
+kpi_cols = st.columns(7)
 kpi_cols[0].metric("CA Total", "841,8 M€")
 kpi_cols[1].metric("Stock immobilisé", "40,2 M€", "36 jours")
 kpi_cols[2].metric("Coût commande", "240 €", "standard marché: 40 €")
