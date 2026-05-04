@@ -64,7 +64,7 @@ st.markdown(
 )
 
 st.markdown(
-    "<div class='main-title'><h2>Audit Supply Chain Dyntech 2022 - Pilotage performance Lean</h2></div>",
+    "<div class='main-title'><h2>Audit Supply Chain Dyntech 2022 - Pilotage performance Lean</h2><p>Cartographie complète des flux physiques et d'information — 8 processus analysés — 334 employés — Marne-la-Vallée + Orléans + 21 Agences + Export Marseille</p></div>",
     unsafe_allow_html=True,
 )
 
@@ -74,6 +74,8 @@ kpi_cols[1].metric("Stock immobilisé", "40,2 M€", "36 jours")
 kpi_cols[2].metric("Coût commande", "240 €", "standard marché: 40 €")
 kpi_cols[3].metric("Cash-to-Cash", "68 jours", "cible CEO: 30j")
 kpi_cols[4].metric("EBITDA", "11%")
+kpi_cols[5].metric("Efficience VALT", "2.4%")
+kpi_cols[6].metric("OTIF", "92.55%")
 
 problems = [
     {
