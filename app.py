@@ -81,6 +81,40 @@ kpi_cols[4].metric("EBITDA", "11%", "OCF: 3%")
 kpi_cols[5].metric("HQ NITO", "10.26", "Target: 14+")
 kpi_cols[6].metric("COTD (normal)", "92.55%")
 
+# ── Helper function to distribute gain per action (weighted by impact) ────────
+def distribute_gain(total_gain, n_actions):
+    """
+    Returns a list of gains per action (in euros) that sum to total_gain.
+    Uses a Pareto‑like distribution: first action gets 30%, second 20%,
+    third 15%, fourth 10%, remaining actions split equally among the rest.
+    """
+    if n_actions == 1:
+        return [total_gain]
+    weights = []
+    remaining = 1.0
+    for i in range(n_actions):
+        if i == 0:
+            w = 0.30
+        elif i == 1:
+            w = 0.20
+        elif i == 2:
+            w = 0.15
+        elif i == 3:
+            w = 0.10
+        else:
+            w = 0.0
+        weights.append(w)
+        remaining -= w
+    # Distribute remaining equally among actions with zero weight (i >= 4)
+    if remaining > 0 and n_actions > 4:
+        leftover_each = remaining / (n_actions - 4)
+        for i in range(4, n_actions):
+            weights[i] = leftover_each
+    # Normalise to avoid rounding errors
+    total_w = sum(weights)
+    weights = [w / total_w for w in weights]
+    return [round(total_gain * w) for w in weights]
+
 # ── Problem data (5 axes: Inventory, Logistics, Data, SAV, Facturation) ──────
 problems = [
     {
@@ -519,7 +553,7 @@ with tabs[1]:
     fig_gantt.update_yaxes(autorange="reversed")
     st.plotly_chart(fig_gantt, use_container_width=True)
 
-# ── Tab 2: ROI & CEO objectives ───────────────────────────────────────────────
+# ── Tab 2: ROI & CEO objectives (with fixed gain distribution) ───────────────
 with tabs[2]:
     st.header("ROI & CEO Strategic Objectives")
     st.caption("Financial justification (PDF § 5 ROI Matrix) and strategic alignment (PDF § 6).")
@@ -540,27 +574,33 @@ with tabs[2]:
     st.subheader("ROI Matrix — 6 Sources of Gain (Updated with SAV & Invoicing)")
     st.dataframe(summary_df, use_container_width=True)
 
-    # Action-level detail (now includes all 5 axes)
-    st.subheader("Action Detail by Axis")
+    # Action-level detail with weighted gain distribution
+    st.subheader("Action Detail by Axis (Weighted Gain Attribution)")
     selected = st.selectbox("Select an axis", [p["name"] for p in problems])
     p_sel = next(p for p in problems if p["name"] == selected)
+
+    # Compute weighted gains for the selected problem
+    n_actions = len(p_sel["actions"])
+    weighted_gains = distribute_gain(p_sel["gain"], n_actions)
+
     impacts = []
-    for idx, action in enumerate(p_sel["actions"], start=1):
+    for idx, (action, gain_eur) in enumerate(zip(p_sel["actions"], weighted_gains)):
         future_keys = list(p_sel["future"].keys())
         future_vals = list(p_sel["future"].values())
-        kpi_key = future_keys[min(idx - 1, len(future_keys) - 1)]
-        kpi_val = future_vals[min(idx - 1, len(future_vals) - 1)]
+        kpi_key = future_keys[min(idx, len(future_keys) - 1)]
+        kpi_val = future_vals[min(idx, len(future_vals) - 1)]
         impacts.append(
             {
                 "Action": action,
                 "Target KPI": kpi_key,
                 "TO BE Value": kpi_val,
-                "Attributed Gain (est.)": f"{p_sel['gain'] / max(len(p_sel['actions']), 1) / 1_000:.0f} k€/yr",
+                "Attributed Gain (€/yr)": f"{gain_eur:,.0f}",
             }
         )
     st.dataframe(pd.DataFrame(impacts), use_container_width=True)
+    st.caption("Gains are distributed using a Pareto‑weighted model (first actions carry highest impact), summing to the axis total gain.")
 
-    # CEO strategic alignment (unchanged, covers all gains)
+    # CEO strategic alignment (unchanged, but success message updated)
     st.subheader("Strategic Alignment — CEO Targets (PDF § 6)")
     st.success(
         "The €470,000 envelope over 24 months represents 0.056% of OPEX and unlocks €10.5 M of recurring annual gains "
