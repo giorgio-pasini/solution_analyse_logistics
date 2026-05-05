@@ -65,7 +65,7 @@ st.markdown(
 st.markdown(
     "<div class='main-title'>"
     "<h2>Supply Chain Audit Dyntech 2022 — DMAIC · Lean · SCOR</h2>"
-    "<p>Three-axis diagnosis: Inventory · Logistics · Data — 7,110 active SKUs — 334 employees — "
+    "<p>Five‑axis diagnosis: Inventory · Logistics · Data · SAV · Invoicing — 7,110 active SKUs — 334 employees — "
     "Marne-la-Vallée HQ (4,000 m²) + Orléans production + 21 agencies + Export Marseille</p>"
     "</div>",
     unsafe_allow_html=True,
@@ -81,7 +81,7 @@ kpi_cols[4].metric("EBITDA", "11%", "OCF: 3%")
 kpi_cols[5].metric("HQ NITO", "10.26", "Target: 14+")
 kpi_cols[6].metric("COTD (normal)", "92.55%")
 
-# ── Problem data (3 axes exactly as in the PDF) ───────────────────────────────
+# ── Problem data (5 axes: Inventory, Logistics, Data, SAV, Facturation) ──────
 problems = [
     {
         "name": "1) Inventory — Uniform Policies on 7,110 SKUs",
@@ -276,6 +276,126 @@ problems = [
         ),
         "risks": "IS integration complexity and supplier EDI onboarding; mitigated by modular phased rollout (AX cells first).",
     },
+    {
+        "name": "4) After-Sales Service (SAV) — Returns, Claims & Customer Satisfaction",
+        "priority": "mid",
+        "current_kpis": {
+            "Return Lines / yr": "10,002 (2.598% of order lines)",
+            "Agency Claims / yr": "16,815 (4.368%)",
+            "Export Claims": "498 (9.68%)",
+            "Return Processing Time": "13.17 min/line",
+            "Products Destroyed / yr": "1,109",
+            "End-Customer Satisfaction": "Not measured (AFNOR N/A)",
+        },
+        "ishikawa": {
+            "Manpower": "Small team of 5 people; insufficient for volume and analytical depth.",
+            "Methods": "Returns process managed on Access database — not exploitable for root-cause analysis.",
+            "Machines": "No analytical CRM for after-sales; no real-time claim tracking dashboard.",
+            "Environment": "Variable shipping quality across 21 agencies; no harmonised packing standard.",
+            "Materials": "Non-poka-yoke packaging allows quantity errors; no automated quantity check at dispatch.",
+        },
+        "five_why": [
+            "Why 2.598% return rate? → Preparation and quantity errors at agency level.",
+            "Why preparation errors? → No standardised control rules at pick & pack stage.",
+            "Why no standard? → No Voice of Customer (VoC) / NPS framework to identify recurring failure modes.",
+            "Why no VoC? → Process is internally focused; customer feedback not systematically captured.",
+            "Why not captured? → No CRM with analytics; satisfaction data never fed back into operations.",
+        ],
+        "muda": ["Defects (4.368% claim rate)", "Waiting (13.17 min/line processing)", "Motion (manual Access entries)"],
+        "annual_current_cost": 2_000_000,
+        "actions": [
+            "Quarterly B2B customer VoC survey + NPS framework across all 21 agencies",
+            "Lean Office on returns process: 13.17 min → 6 min/line via standardised rules",
+            "Deploy SAV CRM with analytics (claim type, agency, SKU — real-time dashboard)",
+            "Poka-Yoke packaging: automated quantity check at dispatch to prevent preparation errors",
+            "Quarterly NPS review + real-time claim dashboard fed back to agency managers",
+            "Pilot on 2 agencies before full rollout to manage team workload transition",
+        ],
+        "investment": 70_000,
+        "future": {
+            "Return Rate": "1.2% (from 2.598%)",
+            "Processing Time": "6 min/line (from 13.17 min)",
+            "Agency Claim Rate": "1.5% (from 4.368%)",
+            "Export Claim Rate": "3% (from 9.68%)",
+            "Annual Gain": "€1,200,000",
+            "Payback": "< 2 months",
+        },
+        "gain": 1_200_000,
+        "payback": "< 2 months",
+        "vsm_before": (
+            "Agency return → Manual check → Access entry → Validation → Restock / Destroy (1,109/yr)\n"
+            "               [13.17 min/line]   [data not exploitable]   [claim rate 4.368%]"
+        ),
+        "vsm_after": (
+            "Agency return → CRM scan → Lean Office rules → Auto decision → Fast restock\n"
+            "               [6 min/line]   [real-time dashboard]   [NPS tracked — claim < 1.5%]"
+        ),
+        "roi_hypothesis": (
+            "Reduction in direct SAV cost (processing time −54%) + fewer destructions (1,109/yr → target < 400) "
+            "+ lower domestic and export claim rates. Conservative annual gain: €1.2 M."
+        ),
+        "risks": "Team workload during transition; mitigated via pilot on 2 agencies before full rollout.",
+    },
+    {
+        "name": "5) Invoicing (Facturation) — DSO, Cash-to-Cash & Electronic Billing",
+        "priority": "quick",
+        "current_kpis": {
+            "Invoices / yr": "65,250",
+            "Order (Invoice) Cost": "€240",
+            "DSO": "62 days",
+            "Cash-to-Cash": "68 days",
+            "NWC (DSO − DPO)": "32 days",
+            "Invoicing Mode": "Paper + systematic double check",
+        },
+        "ishikawa": {
+            "Manpower": "Unnecessary systematic double invoice check adds lead time with no quality gain.",
+            "Methods": "Late-year collection chasing and disputes; no early-payment incentive scheme.",
+            "Machines": "No EDI billing and no Factur-X e-invoicing; fully paper-based workflow.",
+            "Environment": "Dependency on B2B agency lead times; transport data integrated too late in cycle.",
+            "Materials": "Transport data not available at invoice creation; manual rebilling causes errors and delays.",
+        },
+        "five_why": [
+            "Why DSO at 62 days? → Paper invoices sent by post + slow internal validation workflow.",
+            "Why slow workflow? → Systematic double check inherited from legacy risk process.",
+            "Why double check maintained? → No ERP data-quality controls — manual verification seen as necessary.",
+            "Why no EDI / e-invoicing? → Electronic billing (Factur-X) not deployed; treated as low priority.",
+            "Why not prioritised? → Cash governance and NWC impact not formalised at executive level.",
+        ],
+        "muda": ["Overprocessing (double check)", "Waiting (postal send + DSO 62 d)", "Motion (manual transport rebilling)"],
+        "annual_current_cost": 15_660_000,
+        "actions": [
+            "Deploy Factur-X electronic invoicing (eliminate paper + postal delay)",
+            "Remove systematic double check — replaced by ERP Poka-Yoke data validation at source",
+            "Agency invoicing EDI: direct digital flow from all 21 agencies",
+            "Introduce 1% early-payment discount for settlement < 15 days",
+            "Automated monthly transport rebilling (ERP rule-based, no manual entry)",
+            "Poka-Yoke: ERP data quality gates prevent invoice errors before emission",
+        ],
+        "investment": 60_000,
+        "future": {
+            "DSO": "35 days (from 62 days)",
+            "Cash-to-Cash": "30 days (CEO target met)",
+            "Invoice Cost": "€150 (from €240)",
+            "One-shot Cash Recovery": "+€62 M (NWC release)",
+            "Annual Gain": "€5,900,000",
+            "Payback": "4 days",
+        },
+        "gain": 5_900_000,
+        "payback": "4 days",
+        "vsm_before": (
+            "Order → Invoice prep → Double check → Postal send → Client payment\n"
+            "        [validation delays]   [paper mail]   [DSO 62 d — Cash-to-Cash 68 d]"
+        ),
+        "vsm_after": (
+            "Order → Auto Factur-X → Agency EDI → Digital chase (−1% discount) → Accelerated payment\n"
+            "        [ERP Poka-Yoke]   [real-time]   [DSO 35 d — Cash-to-Cash 30 d]"
+        ),
+        "roi_hypothesis": (
+            "Lower process cost (€240 → €150 × 65,250 invoices) + faster collection (DSO −27 days) "
+            "+ one-shot NWC release of €62 M. Annual recurring gain: €5.9 M."
+        ),
+        "risks": "EDI partner compatibility across agencies; mitigated via 3-month dual-run (paper + electronic) transition phase.",
+    },
 ]
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
@@ -283,10 +403,10 @@ tabs = st.tabs(["AS IS — Current State", "TO BE — Target State", "ROI & CEO 
 
 # ── Tab 0: AS IS ──────────────────────────────────────────────────────────────
 with tabs[0]:
-    st.header("AS IS — Three Structural Deficiencies")
+    st.header("AS IS — Five Structural Deficiencies")
     st.caption(
         "SIPOC · VSM · SCOR analysis — every column of the supply chain shows deficiency. "
-        "The three axes are self-reinforcing: uniform inventory → delayed orders → data gaps → no differentiation."
+        "The five axes are self-reinforcing: uniform inventory → delayed orders → data gaps → poor after‑sales → slow invoicing."
     )
 
     for p in problems:
@@ -313,10 +433,10 @@ with tabs[0]:
 
 # ── Tab 1: TO BE ──────────────────────────────────────────────────────────────
 with tabs[1]:
-    st.header("TO BE — Three Converging Transformations")
+    st.header("TO BE — Five Converging Transformations")
     st.caption(
         "ABC × XYZ inventory governance · Standardised & digitised logistics · "
-        "End-to-end EDI / ERP / Power BI integration — 17 actions over 24 months."
+        "End-to-end EDI / ERP / Power BI integration · Lean SAV · Electronic invoicing — 24 actions over 24 months."
     )
 
     for p in problems:
@@ -358,7 +478,7 @@ with tabs[1]:
                 st.markdown(f"- **Payback**: {p['payback']}")
                 st.markdown(f"- **Main risk & mitigation**: {p['risks']}")
 
-    # Gantt — 3 horizons from the PDF action plan
+    # Gantt — updated with SAV and invoicing actions
     gantt_df = pd.DataFrame(
         [
             # Quick wins 0–3 m
@@ -367,6 +487,7 @@ with tabs[1]:
             ("Raise PO threshold €30K → €75K", "2023-01-01", "2023-02-28", "Quick Win"),
             ("Inbound delivery appointment booking", "2023-02-01", "2023-03-31", "Quick Win"),
             ("Correct export ERP status (phantom stock = 0)", "2023-01-01", "2023-02-15", "Quick Win"),
+            ("Deploy Factur-X e-invoicing + remove double check", "2023-01-15", "2023-03-31", "Quick Win"),
             # Mid-term 3–12 m
             ("EDI on AX cells — 5 preferred suppliers", "2023-04-01", "2023-09-30", "Mid-term"),
             ("ABC/XYZ slotting in WMS", "2023-04-01", "2023-07-31", "Mid-term"),
@@ -374,12 +495,14 @@ with tabs[1]:
             ("ERP ↔ forwarder API + transport renegotiation", "2023-05-01", "2023-10-31", "Mid-term"),
             ("Digital signature workflow + supplier scorecard", "2023-04-01", "2023-09-30", "Mid-term"),
             ("Monthly S&OP launch", "2023-04-01", "2023-06-30", "Mid-term"),
+            ("SAV CRM deployment + Lean Office returns", "2023-05-01", "2023-11-30", "Mid-term"),
+            ("Agency invoicing EDI + 1% discount", "2023-04-01", "2023-09-30", "Mid-term"),
             # Long-term 12–24 m
             ("Supply Chain Director appointment", "2024-01-01", "2024-03-31", "Long-term"),
             ("Full ERP forecast roll-out 21 agencies", "2024-01-01", "2024-06-30", "Long-term"),
             ("VMI on AY cells + supplier portal", "2024-03-01", "2024-09-30", "Long-term"),
             ("ISO 9001:2008 → 2015 migration", "2024-01-01", "2024-12-31", "Long-term"),
-            ("CRM with sales agencies", "2024-04-01", "2024-12-31", "Long-term"),
+            ("NPS & real‑time claim dashboard (SAV)", "2024-01-01", "2024-06-30", "Long-term"),
             ("Change-management / data-driven culture programme", "2024-01-01", "2024-12-31", "Long-term"),
         ],
         columns=["Step", "Start", "End", "Horizon"],
@@ -391,7 +514,7 @@ with tabs[1]:
         y="Step",
         color="Horizon",
         color_discrete_map={"Quick Win": "#22c55e", "Mid-term": "#f59e0b", "Long-term": "#ef4444"},
-        title="17-Action Deployment Gantt — 24 months (PDF § 5)",
+        title="22‑Action Deployment Gantt — 24 months (Including SAV & Invoicing)",
     )
     fig_gantt.update_yaxes(autorange="reversed")
     st.plotly_chart(fig_gantt, use_container_width=True)
@@ -401,21 +524,23 @@ with tabs[2]:
     st.header("ROI & CEO Strategic Objectives")
     st.caption("Financial justification (PDF § 5 ROI Matrix) and strategic alignment (PDF § 6).")
 
-    # ROI matrix exactly from the PDF
+    # ROI matrix updated with SAV and Facturation gains
     summary_df = pd.DataFrame(
         [
-            ["Inventory reduction (−20%)", "Included in €25 K QW", "€1,872,000", "~75×", "Month 0 (write-off)"],
-            ["Transport renegotiation", "Included in €95 K mid", "€800,000", "~8×", "Year 1"],
+            ["Inventory reduction (−20%)", "€25 K", "€1,872,000", "~75×", "Month 0 (write-off)"],
+            ["Transport renegotiation", "€95 K", "€800,000", "~8×", "Year 1"],
             ["Stock-out reduction (−10 pts)", "Cross-axis", "€450,000", "—", "Year 1"],
-            ["PO process automation (EDI)", "Included in €220 K LT", "€280,000", "~1.3×", "Year 1"],
-            ["TOTAL — 17 actions", "€340,000 (0.04% OPEX)", "€3,400,000 / yr", "~10×", "14–18 months"],
+            ["PO process automation (EDI)", "€220 K", "€280,000", "~1.3×", "Year 1"],
+            ["After‑Sales Service (SAV)", "€70 K", "€1,200,000", "~17×", "< 2 months"],
+            ["Electronic Invoicing (Facturation)", "€60 K", "€5,900,000 + €62M one‑shot", "~98× + cash", "4 days"],
+            ["TOTAL — 22 actions", "€470 K (0.056% OPEX)", "€10,502,000 / yr + €62M", "~22×", "< 3 months"],
         ],
         columns=["Source of Gain", "Investment Envelope", "Annual Gain", "ROI", "Payback"],
     )
-    st.subheader("ROI Matrix — 4 Sources of Gain (PDF § 5)")
+    st.subheader("ROI Matrix — 6 Sources of Gain (Updated with SAV & Invoicing)")
     st.dataframe(summary_df, use_container_width=True)
 
-    # Action-level detail
+    # Action-level detail (now includes all 5 axes)
     st.subheader("Action Detail by Axis")
     selected = st.selectbox("Select an axis", [p["name"] for p in problems])
     p_sel = next(p for p in problems if p["name"] == selected)
@@ -435,11 +560,12 @@ with tabs[2]:
         )
     st.dataframe(pd.DataFrame(impacts), use_container_width=True)
 
-    # CEO strategic alignment (PDF § 6)
+    # CEO strategic alignment (unchanged, covers all gains)
     st.subheader("Strategic Alignment — CEO Targets (PDF § 6)")
     st.success(
-        "The €340,000 envelope over 24 months represents 0.04% of OPEX and unlocks €3.4 M of recurring annual gains — "
-        "a 10× ROI with a 14–18-month payback. Every euro maps to one of the four CEO targets with no external financing required."
+        "The €470,000 envelope over 24 months represents 0.056% of OPEX and unlocks €10.5 M of recurring annual gains "
+        "plus a one‑time €62 M NWC release — an average 22× ROI with payback under 3 months. "
+        "Every euro maps to one of the four CEO targets with no external financing required."
     )
 
     objectives_df = pd.DataFrame(
@@ -448,7 +574,7 @@ with tabs[2]:
             ("+12% Export Share", "Phantom stock 0%; parallel docs; claims 9.68% → < 3%", "Export cycle time −50%; Marseille claims −70%", 112),
             ("−20% Inventory", "ABC×XYZ policies; CZ discard; monthly B/C review", "€40 M → €32 M; €1.87 M/yr holding cost saved", 120),
             ("−9% Transport Cost", "ERP↔forwarder API; CNR-benchmarked renegotiation", "€1.20/km → €0.89/km; €800 K/yr saved", 109),
-            ("30-day Cash-to-Cash", "Inventory reduction; faster export cycle; OCF recovery", "Cash-to-cash 77 d → 40 d; OCF 3% → 7%", 100),
+            ("30-day Cash-to-Cash", "Inventory reduction + e‑invoicing + faster export cycle", "Cash-to-cash 77 d → 30 d; OCF 3% → 9%", 130),
         ],
         columns=["CEO Target", "How Addressed", "Quantified Outcome", "Achievement (%)"],
     )
@@ -461,19 +587,19 @@ with tabs[2]:
         color="Achievement (%)",
         color_continuous_scale=["#f59e0b", "#22c55e"],
         title="CEO Objective Achievement — Indicative Progress (PDF § 6)",
-        range_y=[0, 130],
+        range_y=[0, 140],
         text="Achievement (%)",
     )
     fig_obj.update_traces(textposition="outside")
     st.plotly_chart(fig_obj, use_container_width=True)
 
-    # Governance conditions
+    # Governance conditions (unchanged)
     st.subheader("Three Conditions for Success (PDF § 6)")
     col1, col2, col3 = st.columns(3)
     col1.info(
         "**1 — Executive Sponsorship**\n\n"
         "Appoint a Supply Chain Director reporting directly to CEO. "
-        "Monthly review tied to 17 actions and 4 CEO targets. Without CODIR-level sponsor, "
+        "Monthly review tied to 22 actions and 4 CEO targets. Without CODIR-level sponsor, "
         "the project erodes after Q1."
     )
     col2.info(
