@@ -81,41 +81,9 @@ kpi_cols[4].metric("EBITDA", "11%", "OCF: 3%")
 kpi_cols[5].metric("HQ NITO", "10.26", "Target: 14+")
 kpi_cols[6].metric("COTD (normal)", "92.55%")
 
-# ── Helper function to distribute gain per action (weighted by impact) ────────
-def distribute_gain(total_gain, n_actions):
-    """
-    Returns a list of gains per action (in euros) that sum to total_gain.
-    Uses a Pareto‑like distribution: first action gets 30%, second 20%,
-    third 15%, fourth 10%, remaining actions split equally among the rest.
-    """
-    if n_actions == 1:
-        return [total_gain]
-    weights = []
-    remaining = 1.0
-    for i in range(n_actions):
-        if i == 0:
-            w = 0.30
-        elif i == 1:
-            w = 0.20
-        elif i == 2:
-            w = 0.15
-        elif i == 3:
-            w = 0.10
-        else:
-            w = 0.0
-        weights.append(w)
-        remaining -= w
-    # Distribute remaining equally among actions with zero weight (i >= 4)
-    if remaining > 0 and n_actions > 4:
-        leftover_each = remaining / (n_actions - 4)
-        for i in range(4, n_actions):
-            weights[i] = leftover_each
-    # Normalise to avoid rounding errors
-    total_w = sum(weights)
-    weights = [w / total_w for w in weights]
-    return [round(total_gain * w) for w in weights]
-
 # ── Problem data (5 axes: Inventory, Logistics, Data, SAV, Facturation) ──────
+# Each axis now includes an "action_weights" list that sums to 1.0.
+# These weights reflect the realistic contribution of each action to the total annual gain.
 problems = [
     {
         "name": "1) Inventory — Uniform Policies on 7,110 SKUs",
@@ -155,6 +123,8 @@ problems = [
             "CZ cells: order on demand or discard (no forecast, no holding cost)",
             "Monthly B/C parameter review under ABC/XYZ rules",
         ],
+        # Realistic weight distribution for Inventory (sum = 1.0)
+        "action_weights": [0.25, 0.20, 0.15, 0.15, 0.10, 0.05, 0.05, 0.05],
         "investment": 25_000,
         "future": {
             "HQ NITO": "14+",
@@ -220,6 +190,8 @@ problems = [
             "Update ISO 9001 procedures (2014 → current); reinstate annual supplier audits",
             "Monthly S&OP with seasonality factor for Y-pattern items",
         ],
+        # Realistic weights for Logistics (sum = 1.0)
+        "action_weights": [0.20, 0.10, 0.20, 0.05, 0.15, 0.15, 0.10, 0.05],
         "investment": 95_000,
         "future": {
             "COTD Summer Peak": "96%",
@@ -285,6 +257,8 @@ problems = [
             "Create Supply Chain Director role reporting to CEO (CODIR-level sponsor)",
             "Full ERP forecast roll-out across all 21 agencies",
         ],
+        # Realistic weights for Data & Integration (sum = 1.0)
+        "action_weights": [0.25, 0.05, 0.15, 0.15, 0.10, 0.10, 0.05, 0.10, 0.05],
         "investment": 220_000,
         "future": {
             "PO Processing Time": "3 min/line (−70%)",
@@ -345,6 +319,8 @@ problems = [
             "Quarterly NPS review + real-time claim dashboard fed back to agency managers",
             "Pilot on 2 agencies before full rollout to manage team workload transition",
         ],
+        # Realistic weights for SAV (sum = 1.0)
+        "action_weights": [0.15, 0.25, 0.20, 0.20, 0.10, 0.10],
         "investment": 70_000,
         "future": {
             "Return Rate": "1.2% (from 2.598%)",
@@ -405,6 +381,8 @@ problems = [
             "Automated monthly transport rebilling (ERP rule-based, no manual entry)",
             "Poka-Yoke: ERP data quality gates prevent invoice errors before emission",
         ],
+        # Realistic weights for Invoicing (sum = 1.0)
+        "action_weights": [0.25, 0.20, 0.20, 0.15, 0.10, 0.10],
         "investment": 60_000,
         "future": {
             "DSO": "35 days (from 62 days)",
@@ -553,12 +531,12 @@ with tabs[1]:
     fig_gantt.update_yaxes(autorange="reversed")
     st.plotly_chart(fig_gantt, use_container_width=True)
 
-# ── Tab 2: ROI & CEO objectives (with fixed gain distribution) ───────────────
+# ── Tab 2: ROI & CEO objectives (with improved gain distribution) ───────────
 with tabs[2]:
     st.header("ROI & CEO Strategic Objectives")
     st.caption("Financial justification (PDF § 5 ROI Matrix) and strategic alignment (PDF § 6).")
 
-    # ROI matrix updated with SAV and Facturation gains
+    # ROI matrix (unchanged, already includes SAV and Facturation)
     summary_df = pd.DataFrame(
         [
             ["Inventory reduction (−20%)", "€25 K", "€1,872,000", "~75×", "Month 0 (write-off)"],
@@ -574,14 +552,16 @@ with tabs[2]:
     st.subheader("ROI Matrix — 6 Sources of Gain (Updated with SAV & Invoicing)")
     st.dataframe(summary_df, use_container_width=True)
 
-    # Action-level detail with weighted gain distribution
+    # Action-level detail with realistic weighted gain attribution (no more repeated values)
     st.subheader("Action Detail by Axis (Weighted Gain Attribution)")
     selected = st.selectbox("Select an axis", [p["name"] for p in problems])
     p_sel = next(p for p in problems if p["name"] == selected)
 
-    # Compute weighted gains for the selected problem
-    n_actions = len(p_sel["actions"])
-    weighted_gains = distribute_gain(p_sel["gain"], n_actions)
+    # Compute gains using the defined action_weights
+    weighted_gains = [round(p_sel["gain"] * w) for w in p_sel["action_weights"]]
+    # Adjust rounding so that the sum exactly equals total gain
+    diff = p_sel["gain"] - sum(weighted_gains)
+    weighted_gains[-1] += diff
 
     impacts = []
     for idx, (action, gain_eur) in enumerate(zip(p_sel["actions"], weighted_gains)):
@@ -598,9 +578,9 @@ with tabs[2]:
             }
         )
     st.dataframe(pd.DataFrame(impacts), use_container_width=True)
-    st.caption("Gains are distributed using a Pareto‑weighted model (first actions carry highest impact), summing to the axis total gain.")
+    st.caption("Gains are distributed according to realistic contribution weights per action (summing to the axis total gain). No artificial repetition.")
 
-    # CEO strategic alignment (unchanged, but success message updated)
+    # CEO strategic alignment (unchanged)
     st.subheader("Strategic Alignment — CEO Targets (PDF § 6)")
     st.success(
         "The €470,000 envelope over 24 months represents 0.056% of OPEX and unlocks €10.5 M of recurring annual gains "
